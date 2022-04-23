@@ -5,12 +5,12 @@
   "main": "./src/server/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "eslint ./src/*.js && node ./src/main.js",
-    "start-no-lint": "node ./src/main.js",
-    "start-fix-lint": "eslint --fix ./src/*.js && node ./src/main.js",
-    "fix-lint": "eslint --fix ./src/*.js",
-    "start-production": "export NODE_ENV=production && eslint ./src/*.js && node ./src/main.js",
-    "start-production-no-lint": "export NODE_ENV=production && node ./src/main.js"
+    "start": "eslint './src/**/*.js' && webpack --mode development && node ./src/helper/deploy.js && node ./src/server/main.js",
+    "start-no-lint": "webpack --mode development && node ./src/helper/deploy.js && node ./src/server/main.js",
+    "start-fix-lint": "eslint --fix './src/**/*.js' && webpack --mode development && node ./src/helper/deploy.js && node ./src/server/main.js",
+    "fix-lint": "eslint --fix './src/**/*.js'",
+    "start-production": "export NODE_ENV=production && webpack --mode production && node ./src/helper/deploy.js && eslint './src/**/*.js' && node ./src/server/main.js",
+    "start-production-no-lint": "export NODE_ENV=production && webpack --mode production && node ./src/helper/deploy.js && node ./src/server/main.js"
   },
   "repository": {
     "type": "git",
