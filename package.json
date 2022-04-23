@@ -1,0 +1,42 @@
+{
+  "name": "loginwebsite",
+  "version": "1.0.0",
+  "description": "Login functionality for a website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "eslint ./src/*.js && node ./src/main.js",
+    "start-no-lint": "node ./src/main.js",
+    "start-fix-lint": "eslint --fix ./src/*.js && node ./src/main.js",
+    "fix-lint": "eslint --fix ./src/*.js",
+    "start-production": "export NODE_ENV=production && eslint ./src/*.js && node ./src/main.js",
+    "start-production-no-lint": "export NODE_ENV=production && node ./src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaNraptor/loginwebsite.git"
+  },
+  "keywords": [
+    "login",
+    "website",
+    "react",
+    "node",
+    "js"
+  ],
+  "author": "Nanyo Nanev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NaNraptor/loginwebsite/issues"
+  },
+  "homepage": "https://github.com/NaNraptor/loginwebsite#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "pg": "^8.7.3",
+    "winston": "^3.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0"
+  }
+}
