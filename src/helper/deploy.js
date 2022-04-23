@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const logger = require('./logger').config('client-deploy-script')
 
-const ignored = ['main.js']
+const ignored = ['main.js', '404.js']
 
 fs.readdirSync('./src/client').forEach(file => {
     if (ignored.includes(file)) return
