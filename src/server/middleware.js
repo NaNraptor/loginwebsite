@@ -23,7 +23,7 @@ const middleware = (app) => {
         })
     }
 
-    app.use(express.static(path.join(__dirname, '..', '..', 'public', 'static')))
+    app.use(express.static(path.join(process.env.PUBLIC_FOLDER, 'static')))
 }
 
 module.exports = {

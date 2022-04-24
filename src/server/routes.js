@@ -2,7 +2,7 @@ const path = require('path')
 
 const route = (app) => {
     app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'))
+        res.sendFile(path.join(process.env.PUBLIC_FOLDER, 'index.html'))
     })
 
     //
@@ -14,8 +14,8 @@ const route = (app) => {
         
     })
 
-    app.get('*', function(req, res){
-        res.status(404).sendFile(path.join(__dirname, '..', '..', 'public', '404.html'))
+    app.get('*', (req, res) => {
+        res.status(404).sendFile(path.join(process.env.PUBLIC_FOLDER, '404.html'))
     })
 }
 
