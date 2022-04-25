@@ -1,16 +1,13 @@
-import React, { Component } from 'react'
-import './404.css'
+import React from 'react'
 import NavigBar from './NavigBar'
 
-class App extends Component {
-  render(){
-    return(
-      <div className='_404'>
-        <NavigBar />
-        <h1> Nothing to see here! 404! </h1>
-      </div>
+const _404 = () => {
+    return (
+        <div className='App'>
+            <NavigBar />
+            <h1> Nothing to see here! 404! </h1>
+        </div>
     )
-  }
 }
 
-export default App
+export default _404
