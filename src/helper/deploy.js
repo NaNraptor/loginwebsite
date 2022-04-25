@@ -16,7 +16,7 @@ if (!fs.existsSync(process.env.PUBLIC_FOLDER)) {
     fs.mkdirSync(path.join(process.env.PUBLIC_FOLDER, 'static'), { recursive: true })
 }
 
-const ignored = ['main.js', '404.js']
+const ignored = ['main.js', '404.js', 'utils.js']
 
 fs.readdirSync('./src/client').forEach(file => {
     if (ignored.includes(file)) return
