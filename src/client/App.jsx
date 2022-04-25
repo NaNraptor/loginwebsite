@@ -1,16 +1,13 @@
-import React, { Component } from 'react'
-import './app.css'
+import React, { useState, useEffect } from 'react'
 import NavigBar from './NavigBar'
 
-class App extends Component {
-  render(){
-    return(
-      <div className='App'>
-        <NavigBar />
-        <h1> Hello, World! </h1>
-      </div>
+const App = () => {
+    return (
+        <div className='App'>
+            <NavigBar />
+            <h1> Hello, World! </h1>
+        </div>
     )
-  }
 }
 
 export default App
