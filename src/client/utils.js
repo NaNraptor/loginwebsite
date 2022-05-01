@@ -52,6 +52,18 @@ export const login = async (data) => {
     return await rawResponse.json()
 }
 
+export const logout = async (data) => {
+    const rawResponse = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return await rawResponse.json()
+}
+
 const getCookie = (name) => {
     const value = `; ${document.cookie}`
     const parts = value.split(`; ${name}=`)
