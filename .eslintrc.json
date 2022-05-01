@@ -23,6 +23,7 @@
         "computed-property-spacing": ["error", "always"],
         "no-trailing-spaces": ["error", { "skipBlankLines": true }],
         "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
-        "object-curly-spacing": ["error", "always"]
+        "object-curly-spacing": ["error", "always"],
+        "react/prop-types": "off"
     }
 }
