@@ -1,13 +1,23 @@
 import React from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
-const NavigBarUserDrop = () => {
+import * as utils from './utils'
+
+const NavigBarUserDrop = (props) => {
+    const onLogout = async () => {
+        const result = await utils.logout()
+        
+        if (result.success) {
+            props.setLogged_in(false)
+        }
+    }
+
     return (
         <NavDropdown title="Signed in as: Username">
-            <NavDropdown.Item href="Profile">Profile</NavDropdown.Item>
-            <NavDropdown.Item href="Dashboard">Dashboard</NavDropdown.Item>
+            <NavDropdown.Item>Profile</NavDropdown.Item>
+            <NavDropdown.Item>Dashboard</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="Logout">Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={(e) => onLogout()}>Logout</NavDropdown.Item>
         </NavDropdown>
     )
 }
