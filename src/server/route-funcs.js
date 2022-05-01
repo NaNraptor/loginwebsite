@@ -112,6 +112,8 @@ const setBannedStatus = async (req, res, next) => {
 
     req.session.banned = db_res.rows.length !== 0
 
+    if (req.session.banned) req.session.banned_reason = db_res.rows[ 0 ].reason
+
     next()
 }
 
