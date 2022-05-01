@@ -13,7 +13,7 @@ const NavigBarUserDrop = (props) => {
     }
 
     return (
-        <NavDropdown title="Signed in as: Username">
+        <NavDropdown title={ utils.isLoggedIn() ? `Signed in as: ${utils.getLoggedInUser()}` : '' }>
             <NavDropdown.Item>Profile</NavDropdown.Item>
             <NavDropdown.Item>Dashboard</NavDropdown.Item>
             <NavDropdown.Divider />
