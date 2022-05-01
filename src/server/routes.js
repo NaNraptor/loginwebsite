@@ -22,6 +22,13 @@ const route = (app) => {
         res.json({ success: true })
     })
 
+    app.post('/logout', (req, res) => {
+        req.session.destroy()
+        res.cookie('username', '')
+
+        res.json({ success: true })
+    })
+
     //A timing attack can be used to check if username exists in the DB
     //Might fix later, probably not
     //DoS attack also possible if bcrypt is extended to pwds of >70 bytes
