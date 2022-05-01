@@ -21,6 +21,19 @@ export const signup = async (data) => {
     return await rawResponse.json()
 }
 
+export const remember_me = async (data) => {
+    const rawResponse = await fetch('/remember_me', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    return await rawResponse.json()
+}
+
 export const login = async (data) => {
     if (data.username === '' ||
         data.password === '') {
