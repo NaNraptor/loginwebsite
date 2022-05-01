@@ -5,6 +5,8 @@ import Nav from 'react-bootstrap/Nav'
 
 import NavigBarUserDrop from './NavigBarUserDrop'
 
+import * as utils from './utils'
+
 const NavigBar = (props) => {
     return (
         <Navbar bg="light" className='mb-5'>
@@ -13,7 +15,7 @@ const NavigBar = (props) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
-                        <NavigBarUserDrop setLogged_in={props.setLogged_in}/>
+                        {utils.isLoggedIn() ? <NavigBarUserDrop setLogged_in={props.setLogged_in}/> : <div />}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
