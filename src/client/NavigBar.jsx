@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav'
 
 import NavigBarUserDrop from './NavigBarUserDrop'
 
-const NavigBar = () => {
+const NavigBar = (props) => {
     return (
         <Navbar bg="light" className='mb-5'>
             <Container fluid>
@@ -13,7 +13,7 @@ const NavigBar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
-                        <NavigBarUserDrop />
+                        <NavigBarUserDrop setLogged_in={props.setLogged_in}/>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
