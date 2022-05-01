@@ -13,6 +13,15 @@ const route = (app) => {
         
     })
 
+    app.post('/remember_me', (req, res) => {
+        if (req.body.remember_me)
+            req.session.cookie.maxAge = 168 * 3600000
+        else
+            req.session.cookie.expires = false
+
+        res.json({ success: true })
+    })
+
     //A timing attack can be used to check if username exists in the DB
     //Might fix later, probably not
     //DoS attack also possible if bcrypt is extended to pwds of >70 bytes
