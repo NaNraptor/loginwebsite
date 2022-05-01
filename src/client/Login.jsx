@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert'
 
 import * as utils from './utils'
 
-const NavigBar = () => {
+const Login = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [login_alert, setLogin_alert] = useState(<div />)
@@ -24,6 +24,7 @@ const NavigBar = () => {
             setLogin_alert(<Alert className="mt-1" key={ 'danger' } variant={ 'danger' }> Log in failed. Please try again. </Alert>)
         } else {
             setLogin_alert(<Alert className="mt-1" key={ 'success' } variant={ 'success' }> Log in successful. Please await redirect. </Alert>)
+            props.setLogged_in(true)
         }
     }
 
@@ -63,4 +64,4 @@ const NavigBar = () => {
     )
 }
 
-export default NavigBar
+export default Login
