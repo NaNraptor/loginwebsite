@@ -2,14 +2,14 @@ export const signup = async (data) => {
     if (data.username === '' ||
         data.password === '' ||
         data.first_name === '' ||
-        data.second_name === '' ||
+        data.last_name === '' ||
         data.email === '' ||
         data.post_code === '' ||
         data.additional === '') {
         return false
     }
 
-    const rawResponse = await fetch('/login', {
+    const rawResponse = await fetch('/signup', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -52,7 +52,7 @@ export const login = async (data) => {
     return await rawResponse.json()
 }
 
-export const logout = async (data) => {
+export const logout = async () => {
     const rawResponse = await fetch('/logout', {
         method: 'POST',
         headers: {
@@ -70,8 +70,35 @@ const getCookie = (name) => {
     if (parts.length === 2) return parts.pop().split(';').shift()
 }
 
+export const deleteAllCookies = () => {
+    var cookies = document.cookie.split(';')
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[ i ]
+        var eqPos = cookie.indexOf('=')
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    }
+}
+
 export const isLoggedIn = () => {
-    return getCookie('username') === '' ? false : true
+    const username = getCookie('username')
+    return username === '' || typeof username === 'undefined' ? false : true
+}
+
+export const getAccessRank = () => {
+    const rank = getCookie('access_rank')
+    return rank
+}
+
+export const isBanned = () => {
+    const banned = getCookie('banned')
+    return banned === 'true'
+}
+
+export const getBanReason = () => {
+    const banned_reason = getCookie('banned_reason')
+    return banned_reason
 }
 
 export const getLoggedInUser = () => {
