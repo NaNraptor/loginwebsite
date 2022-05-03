@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import NavigBar from './NavigBar'
-import Login from './Login'
-import Dashboard from './Dashboard'
 
 import * as utils from './utils'
+import Views from './views'
 
 const App = () => {
-    const [logged_in, setLogged_in] = useState(utils.isLoggedIn())
+    const [current_view, setCurrent_view] = useState(<div />)
 
-    const user_view = (
-        <Dashboard />
-    )
+    useEffect(() => {
+        if (utils.isLoggedIn()) {
+            if (utils.isBanned()) {
+                return setCurrent_view(Views.banned({ setCurrent_view: setCurrent_view }))
+            }
 
-    const login_view = (
-        <Login setLogged_in={setLogged_in}/>
-    )
+            return setCurrent_view(Views.dashboard({ setCurrent_view: setCurrent_view }))
+        }
 
-    let current_view = login_view
-
-    if (logged_in) {
-        current_view = user_view
-    } else {
-        current_view = login_view
-    }
+        setCurrent_view(Views.login({ setCurrent_view: setCurrent_view }))
+    }, [])
 
     return (
         <div className='App'>
-            <NavigBar setLogged_in={setLogged_in}/>
-            {current_view}
+            <NavigBar setCurrent_view={ setCurrent_view }/>
+            { current_view }
         </div>
     )
 }
