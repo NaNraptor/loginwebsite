@@ -19,11 +19,18 @@ const Login = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        utils.deleteAllCookies()
         const result = await utils.login({ username: username, password: password })
 
         if (!result.success) {
             return setLogin_alert(<Alert className='mt-1' key={ 'danger' } variant={ 'danger' }> Log in failed. Please try again. </Alert>)
         }
+
+        setLogin_alert(<Alert className='mt-1' key={ 'success' } variant={ 'success' }> Log in successful. Please await redirect. </Alert>)
+        if (utils.isBanned()) {
+            return props.state.setCurrent_view(Views.banned({ state: props.state }))
+        }
+        props.state.setCurrent_view(Views.dashboard({ state: props.state }))
     }
 
     return (
