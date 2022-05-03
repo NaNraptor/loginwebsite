@@ -94,6 +94,8 @@ const setAccessRank = async (req, res, next) => {
 
     req.session.access_rank = access_rank
 
+    res.cookie('access_rank', access_rank) // Js cookie
+
     next()
 }
 
@@ -112,7 +114,12 @@ const setBannedStatus = async (req, res, next) => {
 
     req.session.banned = db_res.rows.length !== 0
 
-    if (req.session.banned) req.session.banned_reason = db_res.rows[ 0 ].reason
+    res.cookie('banned', req.session.banned)
+
+    if (req.session.banned) {
+        req.session.banned_reason = db_res.rows[ 0 ].reason
+        res.cookie('banned_reason', req.session.banned_reason)
+    }
 
     next()
 }
