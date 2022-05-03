@@ -9,13 +9,13 @@ import * as utils from './utils'
 
 const NavigBar = (props) => {
     return (
-        <Navbar bg="light" className='mb-5'>
+        <Navbar variant='dark' bg='dark' className='mb-5'>
             <Container fluid>
-                <Navbar.Brand href="/">Login Website</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse className="justify-content-end">
+                <Navbar.Brand href='/'>Login Website</Navbar.Brand>
+                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                <Navbar.Collapse className='justify-content-end'>
                     <Nav>
-                        {utils.isLoggedIn() ? <NavigBarUserDrop setLogged_in={props.setLogged_in}/> : <div />}
+                        {utils.isLoggedIn() ? <NavigBarUserDrop setCurrent_view={ props.setCurrent_view }/> : <div />}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
