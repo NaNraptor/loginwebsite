@@ -18,6 +18,8 @@ const SignUp = (props) => {
     const [post_code, setPost_code] = useState('')
     const [additional, setAdditional] = useState('')
 
+    const [signup_alert, setSignup_alert] = useState(<div />)
+
     const validateForm = () => {
         return username.length > 0 &&
                password.length > 0 &&
@@ -40,6 +42,21 @@ const SignUp = (props) => {
             post_code: post_code,
             additional: additional
         })
+
+        console.log(result)
+
+        if (!result.success) {
+            switch (result.stage) {
+                case 'validation':
+                    setSignup_alert(<Alert style={{ whiteSpace: 'pre-wrap' }} className='mb-4' key={ 'danger' } variant={ 'danger' }>Errors:{'\n'}{ result.errors } </Alert>)
+                    break
+                default:
+                    break
+            }
+        } else {
+            setSignup_alert(<Alert style={{ whiteSpace: 'pre-wrap' }} className='mb-4' key={ 'success' } variant={ 'success' }>Sign up successful. Please await redirect.</Alert>)
+            props.state.setCurrent_view(Views.dashboard(props.state))
+        }
     }
 
     return (
@@ -116,6 +133,7 @@ const SignUp = (props) => {
                             />
                         </Form.Group>
                     </Col>
+                    { signup_alert }
                     <Row className='justify-content-md-center'>
                         <Col sm={4} md={5} className='d-grid '>
                             <Button className='mb-3' onClick={(e) => handleSubmit(e)} disabled={!validateForm()}>
