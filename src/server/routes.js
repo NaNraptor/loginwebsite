@@ -41,7 +41,8 @@ const route = (app) => {
 
     app.get('*', (req, res) => {
         logger.debug('404 page accessed')
-        res.status(404).sendFile(path.join(process.env.PUBLIC_FOLDER, '404.html'))
+        res.cookie('404', true)
+        res.status(404).sendFile(path.join(process.env.PUBLIC_FOLDER, 'index.html'))
     })
 }
 
