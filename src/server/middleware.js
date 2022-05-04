@@ -24,6 +24,7 @@ const middleware = (app) => {
     }
 
     app.use(express.static(path.join(process.env.PUBLIC_FOLDER, 'static')))
+    app.use((req, res, next) => { res.cookie('404', false); next() })
 }
 
 module.exports = {
