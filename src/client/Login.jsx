@@ -62,6 +62,10 @@ const Login = (props) => {
                         Log in
                     </Button>
                     {login_alert}
+                    <p className='text-center'>Don&apos;t have an account?</p>
+                    <Button onClick={() => props.state.setCurrent_view(Views.signup(props.state)) }>
+                        Sign up
+                    </Button>
                 </Form>
             </Col>
             <Col />
