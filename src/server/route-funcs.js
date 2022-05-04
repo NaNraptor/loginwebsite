@@ -1,4 +1,7 @@
+const crypto = require('crypto')
 const bcrypt = require('bcrypt')
+const PostcodesIO = require('postcodesio-client')
+var postcodes = new PostcodesIO()
 
 const { pool } = require('../helper/pg-conn')
 const db_queries = require('./db-queries')
@@ -22,6 +25,169 @@ const verifyRank = (required_rank=100) => {
 
         next()
     }
+}
+
+const isAlpha = (str) => {
+    var code, i, len
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i)
+      if (!(code > 64 && code < 91) && // Upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // Lower alpha (a-z)
+        return false
+      }
+    }
+    return true
+}
+
+const isAlphaNumeric = (str) => {
+    var code, i, len
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i)
+      if (!(code > 47 && code < 58) && // Numeric (0-9)
+          !(code > 64 && code < 91) && // Upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // Lower alpha (a-z)
+        return false
+      }
+    }
+    return true
+}
+
+const passwordStrength = (password) => {
+    let strength = 0
+    if (password.match(/[a-z]+/)) {
+        strength += 1
+    }
+    if (password.match(/[A-Z]+/)) {
+        strength += 1
+    }
+    if (password.match(/[0-9]+/)) {
+        strength += 1
+    }
+    if (password.match(/[$@#%)*+(&!-]+/)) {
+        strength += 1
+    }
+
+    return strength
+}
+
+const isEmail = (email) => {
+    return email.toLowerCase().match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
+}
+
+const isPostCode = async (post_code) => {
+    return await postcodes.lookup(post_code)
+}
+
+const isNameTaken = async (name) => {
+    let db_res
+    try {
+        db_res = await pool.query(db_queries.name_taken, [ name ])
+    } catch (err) {
+        logger.error('Could not obtain username information')
+        logger.debug(err.toString())
+        return
+    }
+
+    return db_res.rows.length !== 0
+}
+  
+const verifySignUpData = async (req, res, next) => {
+    const data = req.body
+    const errors = []
+
+    if (!data.username ||
+        data.username.length < 4 ||
+        data.username.length > 15 ||
+        !isAlphaNumeric(data.username)
+    ) {
+        errors.push('Username must be between 4 and 15 characters and can only be alphanumeric.\n')
+    }
+
+    if (typeof (await isNameTaken(data.username)) === 'undefined') {
+        errors.push('Internal error ocurred while checking if username is in use.\n')
+    }
+
+    if (await isNameTaken(data.username)) {
+        errors.push('This username is already in use.\n')
+    }
+
+    if (!data.password ||
+        data.password.length < 8 ||
+        data.password.length > 50 ||
+        passwordStrength(data.password) < 4
+    ) {
+        errors.push(
+            'Password must be between 8 and 50 characters long and contain at least one lowercase letter, one capital letter, one number, and one symbol of \'$@#%)*+(&!-\'.\n'
+        )
+    }
+
+    if (!data.first_name ||
+        !data.last_name ||
+        data.first_name.length > 15 ||
+        data.last_name.length > 15 ||
+        !isAlpha(data.first_name) ||
+        !isAlpha(data.last_name)
+    ) {
+        errors.push('Names must be no more than 15 characters long and must contain only letters.\n')
+    }
+
+    if (!data.email ||
+        data.email.length > 100 ||
+        !isEmail(data.email)
+    ) {
+        errors.push('This email does not seem valid.\n')
+    }
+
+    if (!data.post_code ||
+        data.username.length > 12 ||
+        ! await isPostCode(data.post_code)
+    ) {
+        errors.push('Post code not valid according to the ONS Postcode Directory.\n')
+    }
+
+    if (data.additional.length > 250) {
+        errors.push('Additional information is limited to 250 characters.\n')
+    }
+
+    if (errors.length !== 0) {
+        errors[ errors.length - 1 ] = errors[ errors.length - 1 ].slice(0, -1) // Remove last new line
+        return res.json({ success: false, stage: 'validation', errors: errors })
+    }
+
+    next()
+}
+
+const commitSignUp = async (req, res, next) => {
+    const db_client = await pool.connect()
+
+    try {
+        const values = [
+            crypto.randomUUID(),
+            req.body.username,
+            await bcrypt.hash(req.body.password, 12),
+            Math.floor(Date.now() / 1000),
+            req.body.first_name,
+            req.body.last_name,
+            req.body.email,
+            req.body.post_code,
+            req.body.additional
+        ]
+        await db_client.query('BEGIN')
+        const db_res = await db_client.query(db_queries.signup, values)
+        await db_client.query('COMMIT')
+    } catch (err) {
+        logger.error('User could not be signed up, rolling back DB transaction')
+        logger.debug(err.toString())
+        await db_client.query('ROLLBACK')
+    } finally {
+        db_client.release()
+    }
+
+    next()
 }
 
 const setLoginStatus = async (req, res, next) => {
@@ -125,7 +291,8 @@ const setBannedStatus = async (req, res, next) => {
 }
 
 const routeEndSuccess = (req, res) => {
-    res.send({ success: true })
+    console.log(req.session)
+    res.json({ success: true })
 }
 
 module.exports = {
@@ -134,5 +301,7 @@ module.exports = {
     setLoginStatus: setLoginStatus,
     setAccessRank: setAccessRank,
     setBannedStatus: setBannedStatus,
-    routeEndSuccess: routeEndSuccess
+    routeEndSuccess: routeEndSuccess,
+    verifySignUpData: verifySignUpData,
+    commitSignUp: commitSignUp
 }
