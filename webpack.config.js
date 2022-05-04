@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   entry: {
     main: './src/client/main.js',
-    _404: './src/client/404.js'
+    //_404: './src/client/404.js'
   },
   mode: 'development',
   module: {
