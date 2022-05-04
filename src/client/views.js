@@ -5,6 +5,7 @@ import SignUp from './SignUp'
 import Profile from './Profile'
 import AdminDashboard from './AdminDashboard'
 import Banned from './Banned'
+import _404 from './404'
 
 export default class Views {
     static dashboard = (state) => {
@@ -40,6 +41,12 @@ export default class Views {
     static signup = (state) => {
         return (
             <SignUp state={state}/>
+        )
+    }
+
+    static _404 = (state) => {
+        return (
+            <_404 state={state}/>
         )
     }
 }
