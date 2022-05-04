@@ -23,10 +23,10 @@ const Login = (props) => {
         const result = await utils.login({ username: username, password: password })
 
         if (!result.success) {
-            return setLogin_alert(<Alert className='mt-1' key={ 'danger' } variant={ 'danger' }> Log in failed. Please try again. </Alert>)
+            return setLogin_alert(<Alert className='mt-1' key={ 'danger' } variant={ 'danger' }>Log in failed. Please try again. </Alert>)
         }
 
-        setLogin_alert(<Alert className='mt-1' key={ 'success' } variant={ 'success' }> Log in successful. Please await redirect. </Alert>)
+        setLogin_alert(<Alert className='mt-1' key={ 'success' } variant={ 'success' }>Log in successful. Please await redirect. </Alert>)
         if (utils.isBanned()) {
             return props.state.setCurrent_view(Views.banned(props.state))
         }
