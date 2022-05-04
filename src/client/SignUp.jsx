@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 
 import * as utils from './utils'
+import Views from './views'
 
 const SignUp = (props) => {
     const [username, setUsername] = useState('')
@@ -119,6 +120,10 @@ const SignUp = (props) => {
                         <Col sm={4} md={5} className='d-grid'>
                             <Button flex onClick={(e) => handleSubmit(e)} disabled={!validateForm()}>
                                 Sign up
+                            </Button>
+                            <p className='text-center'>Already have an account?</p>
+                            <Button onClick={() => props.state.setCurrent_view(Views.login(props.state)) }>
+                                Log in
                             </Button>
                         </Col>
                     </Row>
