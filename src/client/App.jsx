@@ -8,6 +8,10 @@ const App = () => {
     const [current_view, setCurrent_view] = useState(<div />)
 
     useEffect(() => {
+        if (utils.is404()) {
+            return setCurrent_view(Views._404({ setCurrent_view: setCurrent_view }))
+        }
+
         if (utils.isLoggedIn()) {
             if (utils.isBanned()) {
                 return setCurrent_view(Views.banned({ setCurrent_view: setCurrent_view }))
@@ -16,7 +20,7 @@ const App = () => {
             return setCurrent_view(Views.dashboard({ setCurrent_view: setCurrent_view }))
         }
 
-        setCurrent_view(Views.login({ setCurrent_view: setCurrent_view }))
+        return setCurrent_view(Views.login({ setCurrent_view: setCurrent_view }))
     }, [])
 
     return (
