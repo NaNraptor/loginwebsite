@@ -82,7 +82,7 @@ const SignUp = (props) => {
                             />
                         </Form.Group>
                     </Col>
-                    <Col sm={4} md='auto'>
+                    <Col sm={4} md='auto' className='mb-3'>
                         <Form.Group className='mb-3' controlId='first_name'>
                             <Form.Label className='font-weight-bold'>First Name</Form.Label>
                             <Form.Control
@@ -117,8 +117,8 @@ const SignUp = (props) => {
                         </Form.Group>
                     </Col>
                     <Row className='justify-content-md-center'>
-                        <Col sm={4} md={5} className='d-grid'>
-                            <Button flex onClick={(e) => handleSubmit(e)} disabled={!validateForm()}>
+                        <Col sm={4} md={5} className='d-grid '>
+                            <Button className='mb-3' onClick={(e) => handleSubmit(e)} disabled={!validateForm()}>
                                 Sign up
                             </Button>
                             <p className='text-center'>Already have an account?</p>
