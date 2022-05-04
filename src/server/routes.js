@@ -9,9 +9,11 @@ const route = (app) => {
     })
 
     //
-    app.post('/signup', (req, res) => {
-        
-    })
+    app.post('/signup',
+        route_funcs.verifySignUpData,
+        route_funcs.commitSignUp,
+        route_funcs.routeEndSuccess
+    )
 
     app.post('/remember_me', (req, res) => {
         if (req.body.remember_me)
