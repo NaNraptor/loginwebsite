@@ -24,7 +24,6 @@ const route = (app) => {
 
     app.post('/logout', (req, res) => {
         req.session.destroy()
-        res.cookie('username', '')
 
         res.json({ success: true })
     })
