@@ -81,6 +81,10 @@ export const deleteAllCookies = () => {
     }
 }
 
+const deleteCookie = (name) => {
+    document.cookie = name+'=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+}
+
 export const isLoggedIn = () => {
     const username = getCookie('username')
     return username === '' || typeof username === 'undefined' ? false : true
@@ -103,4 +107,12 @@ export const getBanReason = () => {
 
 export const getLoggedInUser = () => {
     return getCookie('username')
+}
+
+export const is404 = () => {
+    return getCookie('404') === 'true'
+}
+
+export const reset404 = () => {
+    deleteCookie('404')
 }
