@@ -58,8 +58,8 @@ const Login = (props) => {
                     <Form.Group className='mb-3' controlId='rememberme'>
                         <Form.Check type='checkbox' label='Remember me' onClick={(e) => utils.remember_me({ remember_me: e.target.checked })}/>
                     </Form.Group>
-                    <Button type='submit' disabled={!validateForm()}>
-                    Login
+                    <Button className='mb-3' type='submit' disabled={!validateForm()}>
+                        Log in
                     </Button>
                     {login_alert}
                 </Form>
